@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Halaman Cinta</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fffaf5;
+      overflow-x: hidden;
+    }
+
+    audio {
+      display: none;
+    }
+
+    .judul-atas {
+      text-align: center;
+      font-size: 28px;
+      margin-top: 20px;
+      color: #c45a5a;
+      font-weight: bold;
+    }
+
+    .book-carousel {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .book-pages {
+      width: 320px;
+      height: 220px;
+      overflow: hidden;
+      border: 2px solid #d2b48c;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      position: relative;
+      background: white;
+    }
+
+    .carousel-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .carousel-img.active {
+      opacity: 1;
+    }
+
+    .nav {
+      background-color: #f3e2c7;
+      border: none;
+      font-size: 30px;
+      padding: 10px 16px;
+      cursor: pointer;
+      border-radius: 50%;
+      margin: 0 10px;
+    }
+
+    .paper {
+      background: #fdf3e7;
+      margin: 60px auto;
+      padding: 30px;
+      width: 90%;
+      max-width: 800px;
+      border: 2px dashed #d2b48c;
+      border-radius: 12px;
+      font-size: 18px;
+      line-height: 1.6;
+      color: #3e3e3e;
+    }
+
+    .typewriter {
+      white-space: pre-wrap;
+      overflow: hidden;
+      border-right: .15em solid orange;
+      animation: caret 1s step-end infinite;
+    }
+
+    @keyframes caret {
+      50% { border-color: transparent; }
+    }
+
+    .love-button {
+      display: block;
+      margin: 40px auto;
+      padding: 12px 24px;
+      font-size: 18px;
+      background-color: #ffafcc;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .notif {
+      text-align: center;
+      font-size: 20px;
+      color: #c45a5a;
+      margin-top: 30px;
+      display: none;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .zigzag-container {
+      display: none;
+      margin: 40px auto;
+      max-width: 900px;
+    }
+
+    .zigzag-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .zigzag-item:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .zigzag-item img {
+      width: 250px;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .zigzag-text {
+      padding: 20px;
+      font-size: 16px;
+      color: #5c3d2e;
+    }
+
+    .bunga {
+      position: absolute;
+      font-size: 24px;
+      animation: jatuh 3s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes jatuh {
+      0% { transform: translateY(-40px); opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
+
+    .comment-section {
+      margin: 60px auto;
+      max-width: 800px;
+      padding: 20px;
+    }
+
+    .comment-section textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-family: inherit;
+    }
+
+    .comment-section button {
+      padding: 10px 20px;
+      background: #c45a5a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .comment-list {
+      margin-top: 20px;
+      background: #fff5ec;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    .comment-list p {
+      margin: 10px 0;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Musik -->
+  <audio id="bg-music" autoplay loop>
+    <source src="cemara.mp3" type="audio/mpeg" />
+  </audio>
+
+  <div class="judul-atas">Semua Cintaku Hanya Untukmu</div>
+
+  <!-- Foto Buku -->
+  <div class="book-carousel">
+    <button class="nav" onclick="prevSlide()">&#10094;</button>
+    <div class="book-pages">
+      <img src="foto1.png" class="carousel-img" />
+      <img src="foto2.jpg" class="carousel-img" />
+      <img src="foto3.jpg" class="carousel-img" />
+    </div>
+    <button class="nav" onclick="nextSlide()">&#10095;</button>
+  </div>
+
+  <!-- Surat -->
+  <div class="paper">
+    <div id="typewriter" class="typewriter"></div>
+  </div>
+
+  <!-- Tombol dan Efek -->
+  <button class="love-button" onclick="tampilkanNotifikasi()">Klik Aku</button>
+  <div class="notif" id="notif">Aku akan selalu ada untuk kamu</div>
+
+  <button class="love-button" id="showZigzagBtn" style="display: none;" onclick="tampilkanZigzag()">Lihat Kenangan</button>
+
+  <!-- Zigzag Gambar -->
+  <div class="zigzag-container" id="zigzag">
+    <div class="zigzag-item">
+      <img src="foto1.png" />
+      <div class="zigzag-text">Momen kita di tempat yang paling berkesan...</div>
+    </div>
+    <div class="zigzag-item">
+      <img src="foto2.jpg" />
+      <div class="zigzag-text">Tawa kamu adalah musik terbaik di dunia ini.</div>
+    </div>
+    <div class="zigzag-item">
+      <img src="foto3.jpg" />
+      <div class="zigzag-text">Bersama kamu, waktu terasa lambat tapi hangat.</div>
+    </div>
+  </div>
+
+  <!-- Komentar -->
+  <div class="comment-section">
+    <h3>Tinggalkan Pesan</h3>
+    <textarea id="commentInput" rows="3" placeholder="Tulis pesanmu..."></textarea>
+    <button onclick="submitComment()">Kirim</button>
+    <div class="comment-list" id="commentList"></div>
+  </div>
+
+  <!-- Script -->
+  <script>
+    const teks = `
+Di tengah kehidupan yang sibuk dan dunia yang terus bergerak, keluarga adalah tempat waktu seakan berhenti. Memberi ruang untuk tertawa, menangis, saling mendukung, dan menguatkan.
+
+Hari ini, kita merayakan bukan hanya darah, tapi juga cinta dan pengorbanan yang menyatukan. Tak semua hari mudah, tapi dalam pelukan keluarga, semuanya terasa mungkin.
+
+Terima kasih telah menjadi bagian dari kisah ini. Selamat Hari Keluarga. 
+    `;
+
+    let i = 0;
+    const target = document.getElementById("typewriter");
+    const speed = 40;
+
+    function ketik() {
+      if (i < teks.length) {
+        target.innerHTML += teks.charAt(i);
+        i++;
+        setTimeout(ketik, speed);
+      }
+    }
+    ketik();
+
+    // Carousel
+    let current = 0;
+    const images = document.querySelectorAll('.carousel-img');
+
+    function showSlide(index) {
+      images.forEach((img, i) => {
+        img.classList.toggle('active', i === index);
+      });
+    }
+
+    function nextSlide() {
+      current = (current + 1) % images.length;
+      showSlide(current);
+    }
+
+    function prevSlide() {
+      current = (current - 1 + images.length) % images.length;
+      showSlide(current);
+    }
+
+    showSlide(current);
+
+    // Efek dan Notifikasi
+    function tampilkanNotifikasi() {
+      const notif = document.getElementById("notif");
+      notif.style.display = "block";
+      buatHujanBunga();
+      setTimeout(() => {
+        document.getElementById("showZigzagBtn").style.display = "inline-block";
+      }, 2000);
+    }
+
+    // Efek bunga jatuh pakai emoji 🌸
+    function buatHujanBunga() {
+      for (let i = 0; i < 30; i++) {
+        const bunga = document.createElement("div");
+        bunga.classList.add("bunga");
+        bunga.textContent = "🌸"; // Emoji bunga
+        bunga.style.left = Math.random() * window.innerWidth + "px";
+        bunga.style.animationDuration = 2 + Math.random() * 3 + "s";
+        document.body.appendChild(bunga);
+
+        setTimeout(() => bunga.remove(), 4000);
+      }
+    }
+
+    function tampilkanZigzag() {
+      document.getElementById("zigzag").style.display = "block";
+      document.getElementById("showZigzagBtn").style.display = "none";
+    }
+
+    // Komentar
+    const commentInput = document.getElementById("commentInput");
+    const commentList = document.getElementById("commentList");
+
+    function loadComments() {
+      const saved = localStorage.getItem("comments");
+      if (saved) {
+        commentList.innerHTML = JSON.parse(saved)
+          .map(c => `<p>${c}</p>`)
+          .join("");
+      }
+    }
+
+    function submitComment() {
+      const value = commentInput.value.trim();
+      if (value === "") return;
+
+      let comments = JSON.parse(localStorage.getItem("comments")) || [];
+      comments.push(value);
+      localStorage.setItem("comments", JSON.stringify(comments));
+
+      commentInput.value = "";
+      loadComments();
+    }
+
+    loadComments();
+  </script>
+
+</body>
+</html>
